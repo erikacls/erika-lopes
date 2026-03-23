@@ -1,0 +1,1096 @@
+/* ============================================================
+   PORTFÓLIO ÉRIKA — style.css
+   Estilo principal: editorial refinado, sem frameworks externos.
+   Organização:
+     1. Variáveis CSS (tema claro e escuro)
+     2. Reset & Base
+     3. Tipografia
+     4. Layout Utilitário
+     5. Header / Navegação
+     6. Seção: Sobre Mim
+     7. Seção: Formação (Timeline)
+     8. Seção: Portfólio
+     9. Seção: Contato / Formulário
+    10. Modal de Sucesso
+    11. Rodapé
+    12. Animações
+    13. Responsividade (Media Queries)
+============================================================ */
+
+/* ------------------------------------------------------------
+   1. VARIÁVEIS CSS — TEMA CLARO (padrão)
+   Cada cor e espaçamento é definido aqui para facilitar
+   a troca de tema via JavaScript (dark mode).
+------------------------------------------------------------ */
+:root {
+  /* Cores principais */
+  --cor-fundo:         #f5f2ed;       /* fundo geral — off-white quente */
+  --cor-fundo-alt:     #ede9e1;       /* fundo alternado de seção */
+  --cor-superficie:    #ffffff;
+  --cor-texto:         #1a1714;       /* texto escuro principal */
+  --cor-texto-suave:   #6b645a;       /* texto secundário */
+  --cor-texto-inv:     #f5f2ed;       /* texto sobre fundos escuros */
+  --cor-acento:        #c9713a;       /* laranja terracota — cor de destaque */
+  --cor-acento-hover:  #b05f2e;
+  --cor-borda:         #ddd8cf;
+  --cor-card:          #ffffff;
+  --cor-tag:           #ede9e1;
+  --cor-tag-texto:     #4a4540;
+  --cor-erro:          #c0392b;
+  --cor-sombra:        rgba(26, 23, 20, 0.08);
+  --cor-sombra-forte:  rgba(26, 23, 20, 0.18);
+
+  /* Tipografia */
+  --fonte-display: 'Playfair Display', Georgia, serif;
+  --fonte-corpo:   'DM Sans', system-ui, sans-serif;
+
+  /* Espaçamentos */
+  --espaco-xs:  0.5rem;
+  --espaco-sm:  1rem;
+  --espaco-md:  1.5rem;
+  --espaco-lg:  2.5rem;
+  --espaco-xl:  4rem;
+  --espaco-2xl: 6rem;
+
+  /* Raios de borda */
+  --raio-sm:  6px;
+  --raio-md:  12px;
+  --raio-lg:  20px;
+  --raio-pill: 999px;
+
+  /* Transições */
+  --trans-rapido: 0.18s ease;
+  --trans-medio:  0.32s ease;
+
+  /* Largura máxima do container */
+  --largura-max: 1160px;
+
+  /* Altura do header fixo (usada para scroll offset) */
+  --altura-header: 68px;
+}
+
+/* Tema Escuro — aplicado quando <html data-theme="dark"> */
+[data-theme="dark"] {
+  --cor-fundo:        #141210;
+  --cor-fundo-alt:    #1c1a17;
+  --cor-superficie:   #1e1c19;
+  --cor-texto:        #f0ece5;
+  --cor-texto-suave:  #9b9186;
+  --cor-borda:        #2e2b27;
+  --cor-card:         #1e1c19;
+  --cor-tag:          #2a2721;
+  --cor-tag-texto:    #c9beb0;
+  --cor-sombra:       rgba(0, 0, 0, 0.25);
+  --cor-sombra-forte: rgba(0, 0, 0, 0.45);
+}
+
+/* ------------------------------------------------------------
+   2. RESET & BASE
+   Remove margens padrão do navegador e define box-sizing.
+------------------------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scroll suave para navegação por âncoras */
+html {
+  scroll-behavior: smooth;
+  /* Compensa o header fixo ao rolar para âncoras */
+  scroll-padding-top: var(--altura-header);
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--fonte-corpo);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.7;
+  transition: background-color var(--trans-medio), color var(--trans-medio);
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol { list-style: none; }
+
+button { cursor: pointer; font-family: inherit; }
+
+/* ------------------------------------------------------------
+   3. TIPOGRAFIA
+------------------------------------------------------------ */
+h1, h2, h3, h4 {
+  font-family: var(--fonte-display);
+  line-height: 1.2;
+  color: var(--cor-texto);
+}
+
+/* ------------------------------------------------------------
+   4. LAYOUT UTILITÁRIO
+------------------------------------------------------------ */
+.container {
+  width: 100%;
+  max-width: var(--largura-max);
+  margin-inline: auto;
+  padding-inline: var(--espaco-lg);
+}
+
+/* Seções genéricas: padding vertical generoso */
+.section {
+  padding-block: var(--espaco-2xl);
+  position: relative;
+}
+
+/* Fundo alternado nas seções pares */
+.section-formacao,
+.section-contato {
+  background-color: var(--cor-fundo-alt);
+  transition: background-color var(--trans-medio);
+}
+
+/* Cabeçalho padrão de seção */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--espaco-xl);
+}
+
+.section-label {
+  display: inline-block;
+  font-family: var(--fonte-corpo);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cor-acento);
+  margin-bottom: var(--espaco-sm);
+}
+
+.section-titulo {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: var(--espaco-sm);
+}
+
+.section-descricao {
+  color: var(--cor-texto-suave);
+  font-size: 1.05rem;
+  max-width: 560px;
+  margin-inline: auto;
+}
+
+/* Botões */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 0.8rem 2rem;
+  border-radius: var(--raio-pill);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  transition: transform var(--trans-rapido), box-shadow var(--trans-rapido),
+              background-color var(--trans-rapido);
+}
+
+.btn-primary {
+  background-color: var(--cor-acento);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(201, 113, 58, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: var(--cor-acento-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(201, 113, 58, 0.4);
+}
+
+.btn-full { width: 100%; }
+
+/* Chips de habilidades */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: var(--espaco-lg);
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--raio-pill);
+  background-color: var(--cor-tag);
+  color: var(--cor-tag-texto);
+  font-size: 0.82rem;
+  font-weight: 500;
+  border: 1px solid var(--cor-borda);
+  transition: background-color var(--trans-rapido), color var(--trans-rapido);
+}
+
+/* ------------------------------------------------------------
+   5. HEADER / NAVEGAÇÃO FIXA
+------------------------------------------------------------ */
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--altura-header);
+  background-color: transparent;
+  transition: background-color var(--trans-medio), box-shadow var(--trans-medio),
+              backdrop-filter var(--trans-medio);
+}
+
+/* Classe adicionada via JS ao rolar a página */
+#header.scrolled {
+  background-color: rgba(245, 242, 237, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--cor-borda);
+}
+
+[data-theme="dark"] #header.scrolled {
+  background-color: rgba(20, 18, 16, 0.88);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: var(--largura-max);
+  margin-inline: auto;
+  padding-inline: var(--espaco-lg);
+}
+
+/* Logotipo */
+.nav-logo {
+  font-family: var(--fonte-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cor-texto);
+  transition: color var(--trans-rapido);
+}
+
+.logo-dot { color: var(--cor-acento); }
+
+/* Lista de links */
+.nav-links {
+  display: flex;
+  gap: var(--espaco-lg);
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--cor-texto-suave);
+  position: relative;
+  padding-bottom: 3px;
+  transition: color var(--trans-rapido);
+}
+
+/* Sublinhado animado no hover */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--cor-acento);
+  transition: width var(--trans-medio);
+}
+
+.nav-link:hover,
+.nav-link.ativo {
+  color: var(--cor-texto);
+}
+
+.nav-link:hover::after,
+.nav-link.ativo::after {
+  width: 100%;
+}
+
+/* Controles: dark mode + hamburguer */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-sm);
+}
+
+/* Botão de tema */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--raio-pill);
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--trans-rapido), border-color var(--trans-rapido),
+              transform var(--trans-rapido);
+}
+
+.theme-toggle:hover {
+  transform: rotate(20deg) scale(1.08);
+  border-color: var(--cor-acento);
+}
+
+/* Mostra/esconde ícone conforme tema */
+[data-theme="light"] .icon-moon { display: none; }
+[data-theme="dark"]  .icon-sun  { display: none; }
+
+/* Hamburguer */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--cor-texto);
+  border-radius: 2px;
+  transition: transform var(--trans-medio), opacity var(--trans-rapido);
+}
+
+/* Animação X ao abrir menu mobile */
+.hamburger.aberto span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.aberto span:nth-child(2) { opacity: 0; }
+.hamburger.aberto span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* ------------------------------------------------------------
+   6. SEÇÃO: SOBRE MIM
+------------------------------------------------------------ */
+.section-sobre {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: calc(var(--altura-header) + var(--espaco-xl));
+}
+
+/* Elemento decorativo de fundo */
+.bg-decoration {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: min(600px, 60vw);
+  height: min(600px, 60vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 113, 58, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Grid: texto (esquerda) + visual (direita) */
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--espaco-xl);
+  align-items: center;
+}
+
+.sobre-tag {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cor-acento);
+  margin-bottom: 0.5rem;
+}
+
+.sobre-titulo {
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.sobre-subtitulo {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-lg);
+}
+
+.sobre-subtitulo em {
+  font-style: italic;
+  color: var(--cor-acento);
+}
+
+.sobre-descricao {
+  font-size: 1rem;
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-sm);
+  max-width: 560px;
+}
+
+.sobre-descricao strong { color: var(--cor-texto); font-weight: 600; }
+
+/* Avatar estilizado */
+.sobre-visual { flex-shrink: 0; }
+
+.avatar-frame {
+  position: relative;
+  width: 260px;
+}
+
+.avatar-inner {
+  width: 260px;
+  height: 320px;
+  border-radius: var(--raio-lg);
+  background: linear-gradient(135deg, var(--cor-acento) 0%, #e8956a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 60px rgba(201, 113, 58, 0.35);
+  overflow: hidden;
+}
+
+.avatar-iniciais {
+  font-family: var(--fonte-display);
+  font-size: 5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -2px;
+}
+
+/* Badges flutuantes */
+.badge {
+  position: absolute;
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pill);
+  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+  box-shadow: 0 4px 16px var(--cor-sombra);
+  white-space: nowrap;
+}
+
+.badge-top    { top: -16px;  left: -32px; }
+.badge-bottom { bottom: -16px; right: -20px; }
+
+/* ------------------------------------------------------------
+   7. SEÇÃO: FORMAÇÃO — TIMELINE
+------------------------------------------------------------ */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-lg);
+  position: relative;
+}
+
+/* Linha vertical decorativa */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--cor-acento), var(--cor-borda));
+  border-radius: 2px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: var(--espaco-md);
+  align-items: start;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Classe adicionada via JS ao entrar na viewport */
+.timeline-item.visivel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.timeline-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--cor-superficie);
+  border: 2px solid var(--cor-acento);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px var(--cor-sombra);
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-content {
+  background-color: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  padding: var(--espaco-md) var(--espaco-lg);
+  box-shadow: 0 4px 16px var(--cor-sombra);
+  transition: box-shadow var(--trans-medio), transform var(--trans-medio);
+}
+
+.timeline-content:hover {
+  box-shadow: 0 8px 28px var(--cor-sombra-forte);
+  transform: translateY(-2px);
+}
+
+.timeline-periodo {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cor-acento);
+  margin-bottom: 0.4rem;
+}
+
+.timeline-titulo {
+  font-size: 1.25rem;
+  margin-bottom: 0.3rem;
+}
+
+.timeline-instituicao {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+  margin-bottom: 0.75rem;
+}
+
+.timeline-descricao {
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-sm);
+}
+
+/* Tags de tecnologias na timeline */
+.timeline-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.timeline-tags span {
+  background-color: var(--cor-tag);
+  color: var(--cor-tag-texto);
+  border-radius: var(--raio-pill);
+  padding: 0.2rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid var(--cor-borda);
+}
+
+/* ------------------------------------------------------------
+   8. SEÇÃO: PORTFÓLIO
+------------------------------------------------------------ */
+.projetos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--espaco-lg);
+}
+
+.projeto-card {
+  background-color: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-lg);
+  padding: var(--espaco-lg) var(--espaco-lg) var(--espaco-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--trans-medio), box-shadow var(--trans-medio);
+  box-shadow: 0 4px 16px var(--cor-sombra);
+}
+
+.projeto-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px var(--cor-sombra-forte);
+}
+
+/* Variante destacada do card */
+.projeto-card--destaque {
+  border-color: var(--cor-acento);
+  background: linear-gradient(160deg, var(--cor-card) 60%, rgba(201, 113, 58, 0.04) 100%);
+}
+
+/* Número grande decorativo */
+.projeto-numero {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  font-family: var(--fonte-display);
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--cor-borda);
+  line-height: 1;
+  pointer-events: none;
+  transition: color var(--trans-medio);
+}
+
+.projeto-card:hover .projeto-numero { color: rgba(201, 113, 58, 0.15); }
+
+.projeto-categoria {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cor-acento);
+}
+
+.projeto-titulo {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.projeto-descricao {
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave);
+  flex: 1;
+}
+
+/* Tags de tecnologias dos projetos */
+.projeto-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.projeto-tech span {
+  background-color: var(--cor-tag);
+  color: var(--cor-tag-texto);
+  border-radius: var(--raio-pill);
+  padding: 0.2rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid var(--cor-borda);
+}
+
+.projeto-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cor-acento);
+  margin-top: auto;
+  padding-top: var(--espaco-sm);
+  border-top: 1px solid var(--cor-borda);
+  transition: gap var(--trans-rapido), color var(--trans-rapido);
+}
+
+.projeto-link:hover {
+  gap: 0.6em;
+  color: var(--cor-acento-hover);
+}
+
+/* ------------------------------------------------------------
+   9. SEÇÃO: CONTATO / FORMULÁRIO
+------------------------------------------------------------ */
+.contato-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: var(--espaco-xl);
+  align-items: start;
+}
+
+.contato-info .section-label { display: block; margin-bottom: var(--espaco-sm); }
+
+.contato-info .section-titulo { text-align: left; margin-bottom: var(--espaco-sm); }
+
+.contato-descricao {
+  font-size: 1rem;
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-lg);
+}
+
+.contato-lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+}
+
+.contato-lista li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave);
+}
+
+.contato-icone {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Wrapper do formulário */
+.contato-form-wrapper {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-lg);
+  padding: var(--espaco-lg);
+  box-shadow: 0 8px 32px var(--cor-sombra);
+}
+
+.contato-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-md);
+}
+
+/* Grupo de campo: label + input + mensagem de erro */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1.5px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-corpo);
+  font-size: 0.95rem;
+  transition: border-color var(--trans-rapido), box-shadow var(--trans-rapido);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder { color: var(--cor-texto-suave); opacity: 0.6; }
+
+/* Foco: destaque com cor de acento */
+.form-input:focus {
+  border-color: var(--cor-acento);
+  box-shadow: 0 0 0 3px rgba(201, 113, 58, 0.15);
+}
+
+/* Estado de erro no input */
+.form-input.invalido {
+  border-color: var(--cor-erro);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+/* Mensagem de erro (exibida via JS) */
+.form-erro {
+  font-size: 0.8rem;
+  color: var(--cor-erro);
+  font-weight: 500;
+  min-height: 1rem;
+}
+
+/* ------------------------------------------------------------
+   10. MODAL DE SUCESSO
+------------------------------------------------------------ */
+/* Overlay escuro de fundo */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espaco-md);
+
+  /* Animação de entrada */
+  opacity: 0;
+  transition: opacity var(--trans-medio);
+}
+
+/* Estado visível do modal */
+.modal-overlay.visivel {
+  opacity: 1;
+}
+
+/* O atributo [hidden] esconde o elemento quando fechado */
+.modal-overlay[hidden] { display: none; }
+
+.modal-box {
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio-lg);
+  padding: var(--espaco-xl) var(--espaco-lg);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+  transform: translateY(20px);
+  transition: transform var(--trans-medio);
+}
+
+.modal-overlay.visivel .modal-box {
+  transform: translateY(0);
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cor-acento), #e8956a);
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--espaco-md);
+}
+
+.modal-titulo {
+  font-size: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.modal-texto {
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-lg);
+}
+
+/* ------------------------------------------------------------
+   11. LINKS DE REDES SOCIAIS
+   Usados na seção "Sobre mim", na coluna de contato e no rodapé.
+------------------------------------------------------------ */
+
+/* Grupo de botões sociais (Sobre + Contato) */
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: var(--espaco-lg);
+}
+
+/* Versão compacta usada na seção de contato */
+.social-links--contato {
+  margin-top: var(--espaco-lg);
+  margin-bottom: 0;
+}
+
+/* Cada link social: ícone SVG + texto */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--raio-pill);
+  border: 1.5px solid var(--cor-borda);
+  background-color: var(--cor-superficie);
+  color: var(--cor-texto-suave);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: color var(--trans-rapido), border-color var(--trans-rapido),
+              background-color var(--trans-rapido), transform var(--trans-rapido),
+              box-shadow var(--trans-rapido);
+}
+
+.social-link svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.social-link:hover {
+  color: var(--cor-acento);
+  border-color: var(--cor-acento);
+  background-color: rgba(201, 113, 58, 0.06);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(201, 113, 58, 0.18);
+}
+
+/* ------------------------------------------------------------
+   12. RODAPÉ
+------------------------------------------------------------ */
+.footer {
+  background-color: var(--cor-texto);
+  color: var(--cor-fundo);
+  padding-block: var(--espaco-lg);
+  text-align: center;
+  transition: background-color var(--trans-medio);
+}
+
+[data-theme="dark"] .footer { background-color: #0a0908; }
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Linha de ícones sociais no rodapé */
+.footer-social {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Ícone social no rodapé: apenas o SVG, sem texto */
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+  transition: color var(--trans-rapido), border-color var(--trans-rapido),
+              transform var(--trans-rapido), background-color var(--trans-rapido);
+}
+
+.footer-social-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.footer-social-link:hover {
+  color: #fff;
+  border-color: var(--cor-acento);
+  background-color: rgba(201, 113, 58, 0.25);
+  transform: translateY(-3px);
+}
+
+.footer-copy { font-size: 0.9rem; opacity: 0.85; }
+
+.footer-sub  { font-size: 0.78rem; opacity: 0.5; }
+
+/* ------------------------------------------------------------
+   12. ANIMAÇÕES
+   Classes utilitárias para o IntersectionObserver no JS.
+------------------------------------------------------------ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Atrasos escalonados para entradas sequenciais */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+
+/* ------------------------------------------------------------
+   13. RESPONSIVIDADE — MEDIA QUERIES
+   Breakpoints: tablet (≤ 900px) e mobile (≤ 600px)
+------------------------------------------------------------ */
+
+/* Tablet */
+@media (max-width: 900px) {
+
+  /* Mostrar hamburguer, esconder links */
+  .hamburger   { display: flex; }
+  .nav-links {
+    position: fixed;
+    top: var(--altura-header);
+    left: 0;
+    right: 0;
+    background-color: var(--cor-fundo);
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding-block: var(--espaco-sm);
+    border-bottom: 1px solid var(--cor-borda);
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform var(--trans-medio), opacity var(--trans-medio);
+    pointer-events: none;
+  }
+
+  /* Menu aberto via JS */
+  .nav-links.aberto {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .nav-link {
+    padding: 0.85rem var(--espaco-lg);
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  /* Grid sobre: empilha em coluna */
+  .sobre-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .sobre-visual { display: none; }
+
+  .chips        { justify-content: center; }
+
+  .sobre-descricao { max-width: 100%; }
+
+  /* Projetos: 1 coluna */
+  .projetos-grid { grid-template-columns: 1fr; }
+
+  /* Contato: 1 coluna */
+  .contato-grid { grid-template-columns: 1fr; }
+
+  .contato-info .section-titulo { text-align: center; }
+  .contato-info .section-label  { text-align: center; display: block; }
+  .contato-descricao             { text-align: center; }
+  .contato-lista                 { align-items: center; }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+  :root {
+    --espaco-xl:  2.5rem;
+    --espaco-2xl: 4rem;
+  }
+
+  .container { padding-inline: var(--espaco-sm); }
+
+  .timeline::before { display: none; }
+
+  .timeline-item {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-icon { display: none; }
+
+  /* Formulário: padding menor */
+  .contato-form-wrapper { padding: var(--espaco-md); }
+}
