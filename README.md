@@ -10,19 +10,27 @@ Consiste em um portfólio online com apresentação pessoal, formação, projeto
 - CSS3
 - JavaScript
 
+## ⚙️ Funcionalidades
+- Navegação por seções (single page)
+- Menu fixo e responsivo
+- Alternância de tema (claro/escuro)
+- Formulário de contato com validação em JavaScript
+- Simulação de envio com mensagem de confirmação
+
 ## 🌐 Acesse o projeto
-https://erikacls.github.io/erika-lopes/
+<a href="https://erikacls.github.io/erika-lopes/" target="_blank" rel="noopener noreferrer">
+  🔗 Visualizar Portfólio
+</a>
 
 ## 📂 Estrutura
 - index.html
 - style.css
 - script.js
 
-## ⚙️ Funcionalidades
-- Navegação por seções (single page)
-- Tema claro/escuro
-- Formulário com validação em JavaScript
-- Layout responsivo
-
 ## 📬 Contato
-- GitHub: https://github.com/erikacls
+<a href="https://github.com/erikacls" target="_blank" rel="noopener noreferrer">
+  GitHub
+</a>
+
+## ✨ Observações
+Este projeto foi desenvolvido com foco educacional, sem uso de frameworks, conforme os requisitos da atividade.
