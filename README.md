@@ -1,36 +1,36 @@
-## Portfólio Pessoal
+### Portfólio
 
-### 📌 Sobre o projeto
+#### 📌 Sobre o projeto
 Este projeto foi desenvolvido como atividade prática da disciplina de Aplicações Web e Móveis.
 
 Consiste em um portfólio online com apresentação pessoal, formação, projetos e contato.
 
-### Tecnologias utilizadas
+#### Tecnologias utilizadas
 - HTML5
 - CSS3
 - JavaScript
 
-### Funcionalidades
+#### Funcionalidades
 - Navegação por seções (single page)
 - Menu fixo e responsivo
 - Alternância de tema (claro/escuro)
 - Formulário de contato com validação em JavaScript
 - Simulação de envio com mensagem de confirmação
 
-### 📂 Estrutura
+#### 📂 Estrutura
 - index.html
 - style.css
 - script.js
  
-### 🌐 Acesse o projeto
+#### 🌐 Acesse o projeto
 <a href="https://erikacls.github.io/erika-lopes/" target="_blank" rel="noopener noreferrer">
   🔗 Visualizar Portfólio
 </a>
 
-### 📬 Contato
+#### 📬 Contato
 <a href="" target="_blank" rel="noopener noreferrer">
   contato
 </a>
 
-### Observações
+#### Observações
 Este projeto foi desenvolvido com foco educacional, sem uso de frameworks, conforme os requisitos da atividade.
